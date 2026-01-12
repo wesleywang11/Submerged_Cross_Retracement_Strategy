@@ -50,3 +50,5 @@ The MACD histogram is rising compared to its previous minimum
 Indicates weakening downside momentum
 In short:
 Price makes a new local low, but MACD histogram fails to confirm it.
+
+
