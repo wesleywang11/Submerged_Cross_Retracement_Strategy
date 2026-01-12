@@ -39,4 +39,14 @@ MACD bullish crossover (DIF > DEA)
 → Downward momentum may be slowing.
 In plain terms, it looks for stocks that are recently weak but may be starting a short-term rebound.
 
-
+Bullish_Divergence_finder.py:
+This script scans a stock watchlist and detects daily bullish MACD divergence.
+Logic
+A stock is flagged if both conditions are met:
+Price condition
+The current candle makes the lowest low within the last N bars (default: 10)
+Momentum condition
+The MACD histogram is rising compared to its previous minimum
+Indicates weakening downside momentum
+In short:
+Price makes a new local low, but MACD histogram fails to confirm it.
