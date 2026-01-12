@@ -1,45 +1,37 @@
-ONE-GULP STRATEGY MONITOR
-Underwater Breakout Pullback Detection System
+MACD Underwater Breakout Radar
+A real-time MACD monitoring script for Tokyo Stock Exchange stocks.
+It tracks a full MACD recovery cycle from below zero and sends a single alert when momentum clearly cools down after a confirmed breakout.
+Core Logic
+Data: 15-minute candles, MACD(12, 26, 9)
+Market hours only (TSE)
+The script follows a 4-stage MACD state machine:
+Stage 0 – Waiting
+No valid setup yet
+Stage 1 – Underwater Golden Cross
+DEA < DIF < 0
+Stage 2 – DIF crosses above zero
+DIF > 0 , DEA < 0
+Stage 3 – Full breakout
+DIF > 0 , DEA > 0
+Track the maximum DIF peak
 
-STRATEGY OVERVIEW:
-The "One-Gulp" strategy (一口战法) is a MACD-based technical analysis approach 
-that captures high-probability entry points after underwater golden crosses. 
-It identifies stocks that have built momentum below the zero line and are 
-now pulling back after breaking out, offering optimal risk-reward entries.
+Alert Condition (When You Get a Notification)
+A push notification is sent only if all are true:
+The stock has reached Stage 3
+DEA retraces to ≤ 50% of the peak DIF
+No alert has been sent for this ticker today
+If DIF drops below zero again, the entire state resets.
 
-SIGNAL LOGIC (4-Stage State Machine):
+
+rsi_macd_low_finder.py:
+RSI + MACD Scanner
+This script scans a predefined list of Tokyo Stock Exchange stocks and flags tickers that meet a specific technical condition on the latest trading day.
+Logic:
+A stock is selected if both conditions are true:
+RSI(14) < 40
+→ The stock has shown recent weakness.
+MACD bullish crossover (DIF > DEA)
+→ Downward momentum may be slowing.
+In plain terms, it looks for stocks that are recently weak but may be starting a short-term rebound.
 
 
-Stage 0:  Waiting for Setup
-          Scanning for underwater golden cross (DEA < DIF < 0)
-
-Stage 1:  Underwater Golden Cross Confirmed
-          Waiting for DIF to break above zero line
-          Reset if: DIF crosses below DEA (death cross)
-
-Stage 2:  DIF Breakthrough Confirmed
-          Waiting for DEA to break above zero line
-          Reset if: DIF drops below zero
-
-Stage 3: Both Lines Above Zero - Tracking Mode
-          • Track maximum DIF value since DEA crossed zero
-          • Alert when DEA retraces to 50% of peak DIF
-          • One alert per day to avoid spam
-Reset if: DIF drops below zero (new cycle begins)
-
-WHY IT WORKS:
-1. Underwater GC shows accumulation phase with reduced selling pressure
-2. Double zero-line breakout confirms strong momentum shift
-3. 50% retracement provides optimal entry with defined risk
-4. Historical validation: captures "gulp" of profit in single move
-
-TECHNICAL SPECIFICATIONS:
-- Timeframe: 15-minute candles
-- Lookback: 1 month of historical data
-- MACD Parameters: EMA(12), EMA(26), Signal(9)
-- Trigger: DEA ≤ 50% of peak DIF in Stage 3
-- Alert Frequency: Maximum once per day per ticker
-
-Author: Trading System Developer
-Version: 4.0 - Enhanced Stage Detection with Historical Peak Tracking
-Market: Tokyo Stock Exchange (TSE)
